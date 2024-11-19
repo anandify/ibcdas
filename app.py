@@ -21,11 +21,19 @@ def mood_music_player():
 def volume_control():
     messagebox.showinfo("Volume Control", "Launching volume and gesture-based services...")
 
+def update_background(event):
+    new_width = root.winfo_width()
+    new_height = root.winfo_height()
+    resized_image = background_image.resize((new_width, new_height), Image.ANTIALIAS)
+    new_background_photo = ImageTk.PhotoImage(resized_image)
+    background_label.config(image=new_background_photo)
+    background_label.image = new_background_photo
+
 # Initialize the main window
 root = tk.Tk()
 root.title("VIT_ADAS")
 root.geometry("600x400")
-root.resizable(False, False)
+root.state("zoomed")  # Start maximized
 
 # Load the background image
 background_image = Image.open("assets/background2.jpg")
@@ -33,6 +41,9 @@ background_photo = ImageTk.PhotoImage(background_image)
 
 background_label = tk.Label(root, image=background_photo)
 background_label.place(relwidth=1, relheight=1)  # Cover the entire window
+
+# Bind the resizing event to update the background
+root.bind("<Configure>", update_background)
 
 # Load icons
 start_icon = ImageTk.PhotoImage(Image.open("assets/start_icon.png").resize((100, 100)))
