@@ -51,7 +51,7 @@ emergency_icon = ImageTk.PhotoImage(Image.open("assets/emergency_icon.png").resi
 recordings_icon = ImageTk.PhotoImage(Image.open("assets/recordings_icon.png").resize((100, 100)))
 face_icon = ImageTk.PhotoImage(Image.open("assets/face_icon.png").resize((100, 100)))
 music_icon = ImageTk.PhotoImage(Image.open("assets/music_icon.png").resize((100, 100)))
-volume_icon = ImageTk.PhotoImage(Image.open("assets/volume_icon.png").resize((100, 100)))
+volume_icon = ImageTk.PhotoImage(Image.open("assets/volume_icon2.png").resize((100, 100)))
 # Place buttons with icons
 left_frame = tk.Frame(root, bg="white", bd=0)
 right_frame = tk.Frame(root, bg="white", bd=0)
