@@ -1,13 +1,55 @@
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
-
+import subprocess
 # Functionality for buttons
 def start_driving():
-    messagebox.showinfo("Start Driving", "Starting driving mode...")
+    try:
+        subprocess.Popen(['python', 'traffic-sign-recognition.py'], shell=True)
+        messagebox.showinfo("Start Driving", "Traffic sign recognition started.")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to start traffic sign recognition: {e}")
 
 def emergency_services():
-    messagebox.showinfo("Emergency Services", "Contacting emergency services...")
+    # Create a new full-screen window for emergency services
+    emergency_window = tk.Toplevel(root)
+    
+    # Get screen dimensions
+    screen_width = emergency_window.winfo_screenwidth()
+    screen_height = emergency_window.winfo_screenheight()
+    
+    # Calculate window size (90% of screen size)
+    window_width = int(screen_width * 0.9)
+    window_height = int(screen_height * 0.9)
+    
+    # Calculate position to center the window
+    x_position = (screen_width - window_width) // 2
+    y_position = (screen_height - window_height) // 2
+    
+    # Set window geometry
+    emergency_window.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
+    
+    # Load the SOS image
+    sos_image = Image.open("assets/sos.png")
+    
+    # Resize image to fit the window while maintaining aspect ratio
+    sos_photo = ImageTk.PhotoImage(sos_image.resize((window_width, window_height), Image.LANCZOS))
+    
+    # Create a label to display the image
+    sos_label = tk.Label(emergency_window, image=sos_photo)
+    sos_label.image = sos_photo  # Keep a reference to prevent garbage collection
+    sos_label.pack(fill=tk.BOTH, expand=True)
+    
+    # Add a way to close the emergency window
+    def close_emergency():
+        emergency_window.destroy()
+    
+    # Bind the Escape key to close the window
+    emergency_window.bind('<Escape>', lambda e: close_emergency())
+    
+    # Optional: Add a close button
+    close_button = tk.Button(emergency_window, text="Close Emergency Screen", command=close_emergency)
+    close_button.pack(side=tk.BOTTOM, pady=20)
 
 def view_recordings():
     messagebox.showinfo("Uploaded Recordings", "Displaying uploaded recordings...")
@@ -19,7 +61,13 @@ def mood_music_player():
     messagebox.showinfo("Mood-Based Music Player", "Opening mood-based music player...")
 
 def volume_control():
-    messagebox.showinfo("Volume Control", "Launching volume and gesture-based services...")
+    try:
+        subprocess.Popen(['python', 'Volume_Control.py'], shell=True)
+        messagebox.showinfo("Volume Control", "Launching volume and gesture-based services...")
+
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to do volume control: {e}")
+
 
 def update_background(event):
     new_width = root.winfo_width()
